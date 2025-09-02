@@ -1,80 +1,327 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>YorkHub — LLM Gateway</title>
+    <style>
+      /* --- Theme tokens --- */
+      :root {
+        --bg: #ffffff;
+        --text: #111827;
+        --muted: #6b7280;
+        --card: #f8fafc;
+        --border: #e5e7eb;
+        --brand: #3b82f6;
+        --brand-ink: #0b63f3;
+        --shadow: 0 10px 30px rgba(0,0,0,0.06);
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0f17;
+          --text: #e5e7eb;
+          --muted: #9ca3af;
+          --card: #121824;
+          --border: #1f2937;
+          --brand: #60a5fa;
+          --brand-ink: #93c5fd;
+          --shadow: 0 10px 30px rgba(0,0,0,0.35);
+          color-scheme: dark;
+        }
+      }
+      /* Manual override via [data-theme] */
+      html[data-theme='light'] {
+        --bg: #ffffff;
+        --text: #111827;
+        --muted: #6b7280;
+        --card: #f8fafc;
+        --border: #e5e7eb;
+        --brand: #3b82f6;
+        --brand-ink: #0b63f3;
+        --shadow: 0 10px 30px rgba(0,0,0,0.06);
+        color-scheme: light;
+      }
+      html[data-theme='dark'] {
+        --bg: #0b0f17;
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --card: #121824;
+        --border: #1f2937;
+        --brand: #60a5fa;
+        --brand-ink: #93c5fd;
+        --shadow: 0 10px 30px rgba(0,0,0,0.35);
+        color-scheme: dark;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello, Deno</title>
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Moranga-Regular.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Moranga-Medium.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Recursive_Variable.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="https://demo-styles.deno.deno.net/styles.css">
-  <style>
-    img {
-      display: inline-block;
-      vertical-align: middle;
-    }
-  </style>
-</head>
+      /* --- Base styles --- */
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background: radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--brand) 18%, transparent), transparent), var(--bg);
+        color: var(--text);
+        line-height: 1.55;
+      }
+      a { color: var(--brand); text-decoration: none; }
+      a:hover { color: var(--brand-ink); text-decoration: underline; }
+      code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
 
-<body>
-    <main>
-      <section>
-        <a href="https://deno.com/deploy">
-        </a>
-      <h1>
-        <p>
-          Hello, Deno!
-        </p>
-      </h1>
-      <p>
-        This little example is being served by <a href="https://deno.com/">Deno</a>.
-        You can run it locally or in porduction on <a href="https://deno.com/deploy">Deno Deploy</a> or other hosting platforms.
-      </p>
-      <ul>
-        <li>Run it locally with<code>deno task dev</code></li>
-        <li>Deploy it to <a href="https://deno.com/deploy">Deno Deploy</a> via the CLI by running<code>deno deploy</code></li>
-        <li>Run it locally and share it publically by running <code>deno deploy --connected</code></li>
-      </ul>
-    </section>
-      <hr>
-    <section>
-      <h2>What's next?</h2>
-      <p>
-        You can clone this example and deploy it to Deno Deploy in just a few clicks
-        <a href="https://app.deno.com/new?clone=https://github.com/denoland/examples&path=hello-world"><img src="https://deno.com/button" alt="Deploy on Deno"/></a>
-      </p>
-      <ul>
-        <li>
-          <a href="https://docs.deno.com/examples">More examples in the Deno Docs</a>
-        </li>
-        <li>
-          <a href="https://deno.com/deploy">Deno Deploy Early Access</a>
-        </li>
-      </ul>
-    </section>
-    </main>
-    <hr>
-    <footer>
-      <section>
-      <ul class="flex-btwn">
-        <li>
-          <a href="https://deno.com">BlueSky</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Twitter</a>
-        </li>
-        <li>
-          <a href="https://deno.com">YouTube</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Newsletter</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Deno</a>
-        </li>
-      </ul>
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 0 12px;
+      }
+      .brand {
+        display: flex; align-items: center; gap: 10px;
+        font-weight: 700; letter-spacing: 0.3px; font-size: 18px;
+      }
+      .badge {
+        border: 1px solid var(--border);
+        background: var(--card);
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px; color: var(--muted);
+      }
+      .theme-toggle {
+        border: 1px solid var(--border);
+        background: var(--card);
+        border-radius: 10px;
+        padding: 8px 10px;
+        display: inline-flex; align-items: center; gap: 8px;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .theme-toggle:hover { box-shadow: var(--shadow); }
+
+      .hero {
+        padding: 36px 0 18px;
+      }
+      .hero h1 {
+        font-size: clamp(28px, 6vw, 44px);
+        line-height: 1.1;
+        margin: 0 0 12px 0;
+        letter-spacing: -0.5px;
+      }
+      .hero p { margin: 0; color: var(--muted); font-size: 16px; }
+
+      .panel {
+        margin-top: 24px;
+        border: 1px solid var(--border);
+        background: var(--card);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        padding: 18px;
+      }
+      .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+      .row .grow { flex: 1 1 260px; }
+      .label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+      .pill {
+        display: inline-flex; align-items: center; gap: 10px;
+        border: 1px dashed var(--border);
+        background: transparent;
+        border-radius: 12px;
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        border-radius: 10px;
+        padding: 10px 12px;
+        cursor: pointer;
+      }
+      .btn:hover { box-shadow: var(--shadow); }
+
+      .grid { display: grid; gap: 16px; grid-template-columns: repeat(12, 1fr); }
+      .col-6 { grid-column: span 6; }
+      .col-12 { grid-column: span 12; }
+      @media (max-width: 860px) { .col-6 { grid-column: span 12; } }
+
+      pre.code {
+        margin: 0; padding: 12px 14px; border-radius: 12px;
+        background: linear-gradient(180deg, color-mix(in oklab, var(--card) 92%, transparent), var(--card));
+        border: 1px solid var(--border);
+        overflow: auto; font-size: 13px; line-height: 1.5;
+      }
+      footer { color: var(--muted); font-size: 13px; padding: 28px 0 8px; }
+
+      .feat { display: flex; gap: 10px; align-items: flex-start; }
+      .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); margin-top: 8px; }
+    </style>
+    <script>
+      // Set theme early to avoid flash
+      (function() {
+        try {
+          const t = localStorage.getItem('theme');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (_) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="brand">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 2l2.39 4.84L20 8l-4 3.9L17 18l-5-2.7L7 18l1-6.1L4 8l5.61-1.16L12 2z" fill="currentColor" opacity=".9"/>
+          </svg>
+          YorkHub <span class="badge">LLM Gateway</span>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
+          <span id="theme-label">自动</span>
+          <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zm10.45 10.45l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM12 4V1h-0v3h0zm0 19v-3h0v3h0zM4 12H1v0h3v0zm19 0h-3v0h3v0zM6.76 19.16l-1.42 1.42-1.79-1.8 1.41-1.41 1.8 1.79zM19.16 6.76l1.42-1.42 1.79 1.8-1.41 1.41-1.8-1.79zM12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+          <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M21 12.79A9 9 0 1111.21 3c.05.33.08.66.08 1a7 7 0 007 7c.34 0 .67-.03 1-.08z"/></svg>
+        </button>
+      </header>
+
+      <section class="hero">
+        <h1>一站式 OpenAI API 网关</h1>
+        <p>将 OpenAI 客户端的 Base URL 指向 YorkHub，即可访问任意兼容的 LLM。</p>
       </section>
-    </footer>
-</body>
-</html>
+
+      <section class="panel">
+        <div class="row">
+          <div class="grow">
+            <div class="label">Base URL</div>
+            <div class="pill"><code id="base-url">—</code></div>
+          </div>
+          <div>
+            <button class="btn" id="copy-btn">复制</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" style="margin-top:16px">
+        <div class="grid">
+          <div class="col-6 col-12">
+            <div class="label">cURL</div>
+            <pre class="code" id="curl-code">curl -X POST "$ORIGIN/v1/chat/completions" \
+  -H "Authorization: Bearer sk-..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-4o-mini",
+    "messages": [{"role":"user","content":"Hello from YorkHub!"}]
+  }'
+</pre>
+          </div>
+          <div class="col-6 col-12">
+            <div class="label">JavaScript / TypeScript (fetch)</div>
+            <pre class="code" id="js-code">const baseURL = "$ORIGIN"; // YorkHub
+const resp = await fetch(`${baseURL}/v1/chat/completions`, {
+  method: "POST",
+  headers: {
+    "Authorization": "Bearer sk-...",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    model: "gpt-4o-mini",
+    messages: [{ role: "user", content: "Hello from YorkHub!" }],
+  }),
+});
+const data = await resp.json();
+console.log(data.choices?.[0]?.message?.content);
+</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" style="margin-top:16px">
+        <div class="grid">
+          <div class="col-6 col-12 feat">
+            <div class="dot"></div>
+            <div>
+              <strong>OpenAI 兼容：</strong>无需改动 SDK，只需替换 Base URL。
+            </div>
+          </div>
+          <div class="col-6 col-12 feat">
+            <div class="dot"></div>
+            <div>
+              <strong>多模型聚合：</strong>统一代理不同厂商 / 模型，路由灵活可配。
+            </div>
+          </div>
+          <div class="col-6 col-12 feat">
+            <div class="dot"></div>
+            <div>
+              <strong>可观测性：</strong>内置请求日志与统计，便于排查与优化。
+            </div>
+          </div>
+          <div class="col-6 col-12 feat">
+            <div class="dot"></div>
+            <div>
+              <strong>生产就绪：</strong>轻量、稳定、易于部署与集成。
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div>© <span id="year"></span> YorkHub · LLM Gateway</div>
+      </footer>
+    </div>
+
+    <script>
+      // Populate base URL and code samples
+      const origin = window.location.origin;
+      const baseEl = document.getElementById('base-url');
+      baseEl.textContent = origin;
+      const replaceOrigin = s => s.replaceAll('$ORIGIN', origin);
+      document.getElementById('curl-code').textContent = replaceOrigin(document.getElementById('curl-code').textContent);
+      document.getElementById('js-code').textContent = replaceOrigin(document.getElementById('js-code').textContent);
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Copy button
+      document.getElementById('copy-btn').addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(origin);
+          const btn = document.getElementById('copy-btn');
+          const old = btn.textContent; btn.textContent = '已复制';
+          setTimeout(() => (btn.textContent = old), 1200);
+        } catch (e) {
+          alert('复制失败，请手动选择并复制。');
+        }
+      });
+
+      // Theme toggle with persistence
+      const toggle = document.getElementById('theme-toggle');
+      const label = document.getElementById('theme-label');
+      const iconSun = document.getElementById('icon-sun');
+      const iconMoon = document.getElementById('icon-moon');
+
+      function syncLabel() {
+        const attr = document.documentElement.getAttribute('data-theme');
+        if (!attr) { label.textContent = '自动'; iconSun.style.display=''; iconMoon.style.display='none'; return; }
+        if (attr === 'light') { label.textContent = '浅色'; iconSun.style.display=''; iconMoon.style.display='none'; }
+        else { label.textContent = '深色'; iconSun.style.display='none'; iconMoon.style.display=''; }
+      }
+      syncLabel();
+
+      toggle.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme');
+        let next;
+        if (cur === 'light') next = 'dark';
+        else if (cur === 'dark') next = null; // back to auto
+        else next = 'light';
+
+        if (next) {
+          document.documentElement.setAttribute('data-theme', next);
+          try { localStorage.setItem('theme', next); } catch (_) {}
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          try { localStorage.removeItem('theme'); } catch (_) {}
+        }
+        syncLabel();
+      });
+    </script>
+  </body>
+  </html>
