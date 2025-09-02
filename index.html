@@ -176,7 +176,8 @@
         transition: all 0.3s ease;
       }
       .brand:hover {
-        transform: scale(1.05);
+        color: var(--brand);
+        text-decoration: underline;
       }
       .badge {
         background: linear-gradient(135deg, var(--brand), var(--accent));
@@ -213,29 +214,13 @@
         position: relative;
         animation: fadeInUp 0.8s ease-out;
       }
-      .hero::before {
-        content: '';
-        position: absolute;
-        top: -20%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, color-mix(in oklab, var(--brand) 15%, transparent) 0%, transparent 70%);
-        border-radius: 50%;
-        z-index: -1;
-        animation: float 6s ease-in-out infinite;
-      }
-      .hero h1 {
+            .hero h1 {
         font-size: clamp(36px, 8vw, 64px);
         line-height: 1.1;
         margin: 0 0 24px 0;
         letter-spacing: -0.03em;
         font-weight: 900;
-        background: linear-gradient(135deg, var(--feat-1), var(--feat-2), var(--feat-3), var(--feat-4));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: var(--brand);
       }
       .hero p { 
         margin: 0; 
@@ -266,8 +251,7 @@
         display: inline-flex; align-items: center; gap: 8px;
       }
       .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.4);
+        background: linear-gradient(135deg, color-mix(in oklab, var(--brand) 90%, black), color-mix(in oklab, var(--accent) 90%, black));
       }
       .btn-secondary {
         background: color-mix(in oklab, var(--accent) 6%, var(--bg));
@@ -445,8 +429,7 @@
         transition: all 0.3s ease;
       }
       .base-url-input:hover {
-        border-color: var(--info);
-        box-shadow: inset 0 2px 4px rgba(0,0,0,0.06), 0 0 0 3px color-mix(in oklab, var(--info) 14%, transparent);
+        border-color: var(--brand);
       }
       .base-url-input code {
         font-family: 'Fira Code', monospace;
@@ -528,8 +511,7 @@
         transform: scaleX(1);
       }
       .feature-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-lg);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       }
       .feature-icon {
         width: 48px;
@@ -585,16 +567,13 @@
         font-size: 48px;
         font-weight: 900;
         margin: 0 0 8px 0;
-        background: linear-gradient(135deg, var(--feat-1), var(--feat-2), var(--feat-3), var(--feat-4));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: var(--brand);
       }
       /* Staggered gradients per stat item for rhythm */
-      .stats-grid .stat-item:nth-child(1) h3 { background: linear-gradient(135deg, var(--feat-1), var(--feat-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-      .stats-grid .stat-item:nth-child(2) h3 { background: linear-gradient(135deg, var(--feat-2), var(--feat-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-      .stats-grid .stat-item:nth-child(3) h3 { background: linear-gradient(135deg, var(--feat-3), var(--feat-4)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-      .stats-grid .stat-item:nth-child(4) h3 { background: linear-gradient(135deg, var(--feat-4), var(--feat-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      .stats-grid .stat-item h3 {
+        color: var(--brand);
+        text-align: center;
+      }
       .stat-item p {
         margin: 0;
         color: var(--muted);
@@ -860,21 +839,21 @@
           button.addEventListener('click', function(e) {
             const ripple = document.createElement('span');
             const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
+            const diameter = Math.min(rect.width, rect.height) * 0.6;
+            const x = e.clientX - rect.left - diameter / 2;
+            const y = e.clientY - rect.top - diameter / 2;
             
             ripple.style.cssText = `
               position: absolute;
-              width: ${size}px;
-              height: ${size}px;
+              width: ${diameter}px;
+              height: ${diameter}px;
               border-radius: 50%;
-              background: rgba(255, 255, 255, 0.3);
+              background: rgba(255, 255, 255, 0.2);
               left: ${x}px;
               top: ${y}px;
               pointer-events: none;
               transform: scale(0);
-              animation: ripple 0.6s ease-out;
+              animation: ripple 0.4s ease-out;
             `;
             
             this.style.position = 'relative';
