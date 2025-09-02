@@ -3,55 +3,69 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="YorkHub - 专业的 LLM API 网关，统一管理 OpenAI、Claude、Gemini 等多种大模型服务" />
+    <meta name="keywords" content="LLM Gateway, API Gateway, OpenAI, Claude, Gemini, AI, 大模型" />
     <meta name="color-scheme" content="light dark" />
-    <title>YorkHub — LLM Gateway</title>
+    <title>YorkHub - 专业的 LLM API 网关</title>
     <style>
       /* --- Theme tokens --- */
       :root {
         --bg: #ffffff;
-        --text: #111827;
-        --muted: #6b7280;
+        --text: #0f172a;
+        --muted: #64748b;
         --card: #f8fafc;
-        --border: #e5e7eb;
+        --border: #e2e8f0;
         --brand: #3b82f6;
-        --brand-ink: #0b63f3;
-        --shadow: 0 10px 30px rgba(0,0,0,0.06);
+        --brand-ink: #1d4ed8;
+        --secondary: #8b5cf6;
+        --success: #10b981;
+        --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         color-scheme: light;
       }
       @media (prefers-color-scheme: dark) {
         :root {
-          --bg: #0b0f17;
-          --text: #e5e7eb;
-          --muted: #9ca3af;
-          --card: #121824;
-          --border: #1f2937;
+          --bg: #0a0f1e;
+          --text: #f1f5f9;
+          --muted: #94a3b8;
+          --card: #0f172a;
+          --border: #1e293b;
           --brand: #60a5fa;
           --brand-ink: #93c5fd;
-          --shadow: 0 10px 30px rgba(0,0,0,0.35);
+          --secondary: #a78bfa;
+          --success: #34d399;
+          --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+          --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
           color-scheme: dark;
         }
       }
       /* Manual override via [data-theme] */
       html[data-theme='light'] {
         --bg: #ffffff;
-        --text: #111827;
-        --muted: #6b7280;
+        --text: #0f172a;
+        --muted: #64748b;
         --card: #f8fafc;
-        --border: #e5e7eb;
+        --border: #e2e8f0;
         --brand: #3b82f6;
-        --brand-ink: #0b63f3;
-        --shadow: 0 10px 30px rgba(0,0,0,0.06);
+        --brand-ink: #1d4ed8;
+        --secondary: #8b5cf6;
+        --success: #10b981;
+        --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         color-scheme: light;
       }
       html[data-theme='dark'] {
-        --bg: #0b0f17;
-        --text: #e5e7eb;
-        --muted: #9ca3af;
-        --card: #121824;
-        --border: #1f2937;
+        --bg: #0a0f1e;
+        --text: #f1f5f9;
+        --muted: #94a3b8;
+        --card: #0f172a;
+        --border: #1e293b;
         --brand: #60a5fa;
         --brand-ink: #93c5fd;
-        --shadow: 0 10px 30px rgba(0,0,0,0.35);
+        --secondary: #a78bfa;
+        --success: #34d399;
+        --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+        --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         color-scheme: dark;
       }
 
@@ -60,104 +74,381 @@
       html, body { height: 100%; }
       body {
         margin: 0;
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-        background: radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--brand) 18%, transparent), transparent), var(--bg);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        background: linear-gradient(135deg, var(--bg) 0%, var(--card) 100%);
         color: var(--text);
-        line-height: 1.55;
+        line-height: 1.6;
+        overflow-x: hidden;
       }
-      a { color: var(--brand); text-decoration: none; }
-      a:hover { color: var(--brand-ink); text-decoration: underline; }
-      code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+      a { color: var(--brand); text-decoration: none; transition: all 0.2s ease; }
+      a:hover { color: var(--brand-ink); text-decoration: none; transform: translateY(-1px); }
+      code, pre { font-family: 'Fira Code', 'Monaco', 'Cascadia Code', 'SF Mono', 'Consolas', monospace; }
+
+      /* Animations */
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+      @keyframes slideIn {
+        from { transform: translateX(-100%); }
+        to { transform: translateX(0); }
+      }
 
       .container {
-        max-width: 1000px;
+        max-width: 1200px;
         margin: 0 auto;
-        padding: 24px;
+        padding: 0 24px;
       }
       header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 16px 0 12px;
+        padding: 24px 0;
+        animation: slideIn 0.6s ease-out;
       }
       .brand {
-        display: flex; align-items: center; gap: 10px;
-        font-weight: 700; letter-spacing: 0.3px; font-size: 18px;
+        display: flex; align-items: center; gap: 12px;
+        font-weight: 800; letter-spacing: -0.02em; font-size: 24px;
+        transition: all 0.3s ease;
+      }
+      .brand:hover {
+        transform: scale(1.05);
       }
       .badge {
-        border: 1px solid var(--border);
-        background: var(--card);
-        padding: 2px 8px;
-        border-radius: 999px;
-        font-size: 12px; color: var(--muted);
+        background: linear-gradient(135deg, var(--brand), var(--secondary));
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 11px; font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       }
       .theme-toggle {
-        border: 1px solid var(--border);
         background: var(--card);
-        border-radius: 10px;
-        padding: 8px 10px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 14px;
         display: inline-flex; align-items: center; gap: 8px;
         color: var(--muted);
         cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        font-size: 14px;
       }
-      .theme-toggle:hover { box-shadow: var(--shadow); }
+      .theme-toggle:hover {
+        box-shadow: var(--shadow);
+        transform: translateY(-1px);
+        border-color: var(--brand);
+      }
 
+      /* Hero Section */
       .hero {
-        padding: 36px 0 18px;
+        padding: 80px 0 60px;
+        text-align: center;
+        position: relative;
+        animation: fadeInUp 0.8s ease-out;
+      }
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: -20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, color-mix(in oklab, var(--brand) 15%, transparent) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: -1;
+        animation: float 6s ease-in-out infinite;
       }
       .hero h1 {
-        font-size: clamp(28px, 6vw, 44px);
+        font-size: clamp(36px, 8vw, 64px);
         line-height: 1.1;
-        margin: 0 0 12px 0;
-        letter-spacing: -0.5px;
+        margin: 0 0 24px 0;
+        letter-spacing: -0.03em;
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--brand), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
-      .hero p { margin: 0; color: var(--muted); font-size: 16px; }
+      .hero p { 
+        margin: 0; 
+        color: var(--muted); 
+        font-size: 20px; 
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+      .cta-buttons {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        margin-top: 40px;
+        flex-wrap: wrap;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, var(--brand), var(--secondary));
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+        display: inline-flex; align-items: center; gap: 8px;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
+      }
+      .btn-secondary {
+        background: var(--card);
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex; align-items: center; gap: 8px;
+      }
+      .btn-secondary:hover {
+        background: var(--bg);
+        box-shadow: var(--shadow);
+      }
 
+      /* Panel Styles */
       .panel {
-        margin-top: 24px;
+        margin-top: 40px;
         border: 1px solid var(--border);
         background: var(--card);
-        border-radius: 16px;
+        border-radius: 20px;
         box-shadow: var(--shadow);
-        padding: 18px;
+        padding: 24px;
+        transition: all 0.3s ease;
       }
-      .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
-      .row .grow { flex: 1 1 260px; }
-      .label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+      .panel:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+      }
+      .row { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+      .row .grow { flex: 1 1 300px; }
+      .label { font-size: 14px; color: var(--muted); margin-bottom: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
       .pill {
         display: inline-flex; align-items: center; gap: 10px;
-        border: 1px dashed var(--border);
-        background: transparent;
-        border-radius: 12px;
-        padding: 10px 12px;
-        font-size: 14px;
+        background: linear-gradient(90deg, var(--card), color-mix(in oklab, var(--brand) 5%, var(--card)));
+        border: 2px solid var(--border);
+        border-radius: 16px;
+        padding: 14px 18px;
+        font-size: 15px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+      .pill:hover {
+        border-color: var(--brand);
+        transform: scale(1.02);
       }
       .btn {
         display: inline-flex; align-items: center; gap: 8px;
-        border: 1px solid var(--border);
-        background: var(--bg);
+        background: linear-gradient(135deg, var(--card), var(--bg));
         color: var(--text);
-        border-radius: 10px;
-        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px 20px;
         cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s ease;
       }
-      .btn:hover { box-shadow: var(--shadow); }
+      .btn:hover { 
+        box-shadow: var(--shadow);
+        transform: translateY(-1px);
+        border-color: var(--brand);
+      }
 
-      .grid { display: grid; gap: 16px; grid-template-columns: repeat(12, 1fr); }
+      /* Grid Layout */
+      .grid { display: grid; gap: 24px; grid-template-columns: repeat(12, 1fr); }
       .col-6 { grid-column: span 6; }
       .col-12 { grid-column: span 12; }
-      @media (max-width: 860px) { .col-6 { grid-column: span 12; } }
-
-      pre.code {
-        margin: 0; padding: 12px 14px; border-radius: 12px;
-        background: linear-gradient(180deg, color-mix(in oklab, var(--card) 92%, transparent), var(--card));
-        border: 1px solid var(--border);
-        overflow: auto; font-size: 13px; line-height: 1.5;
+      .col-4 { grid-column: span 4; }
+      .col-3 { grid-column: span 3; }
+      @media (max-width: 1024px) { 
+        .col-4 { grid-column: span 6; }
+        .col-3 { grid-column: span 6; }
       }
-      footer { color: var(--muted); font-size: 13px; padding: 28px 0 8px; }
+      @media (max-width: 860px) { 
+        .col-6 { grid-column: span 12; }
+        .col-4 { grid-column: span 12; }
+        .col-3 { grid-column: span 12; }
+      }
 
-      .feat { display: flex; gap: 10px; align-items: flex-start; }
-      .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); margin-top: 8px; }
+      /* Code Styling */
+      pre.code {
+        margin: 0; 
+        padding: 20px 24px; 
+        border-radius: 16px;
+        background: linear-gradient(180deg, var(--bg), color-mix(in oklab, var(--brand) 3%, var(--bg)));
+        border: 1px solid var(--border);
+        overflow: auto; 
+        font-size: 14px; 
+        line-height: 1.6;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+      pre.code:hover {
+        border-color: var(--brand);
+      }
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .copy-code {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 6px 12px;
+        font-size: 12px;
+        cursor: pointer;
+        color: var(--muted);
+        transition: all 0.2s ease;
+      }
+      .copy-code:hover {
+        background: var(--bg);
+        color: var(--brand);
+      }
+
+      /* Features */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        margin-top: 60px;
+      }
+      .feature-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.6s ease-out;
+        animation-fill-mode: both;
+      }
+      .feature-card:nth-child(1) { animation-delay: 0.1s; }
+      .feature-card:nth-child(2) { animation-delay: 0.2s; }
+      .feature-card:nth-child(3) { animation-delay: 0.3s; }
+      .feature-card:nth-child(4) { animation-delay: 0.4s; }
+      .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--brand), var(--secondary));
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+      .feature-card:hover::before {
+        transform: scaleX(1);
+      }
+      .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, var(--brand), var(--secondary));
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        font-size: 24px;
+      }
+      .feature-card h3 {
+        margin: 0 0 12px 0;
+        font-size: 20px;
+        font-weight: 700;
+      }
+      .feature-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      /* Stats */
+      .stats-section {
+        margin-top: 80px;
+        padding: 60px 0;
+        background: linear-gradient(135deg, var(--card), var(--bg));
+        border-radius: 24px;
+        text-align: center;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-top: 40px;
+      }
+      .stat-item h3 {
+        font-size: 48px;
+        font-weight: 900;
+        margin: 0 0 8px 0;
+        background: linear-gradient(135deg, var(--brand), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .stat-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      /* Footer */
+      footer { 
+        color: var(--muted); 
+        font-size: 14px; 
+        padding: 60px 0 40px;
+        text-align: center;
+        border-top: 1px solid var(--border);
+        margin-top: 80px;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hero { padding: 60px 0 40px; }
+        .hero h1 { font-size: clamp(32px, 12vw, 48px); }
+        .hero p { font-size: 18px; }
+        .cta-buttons { flex-direction: column; align-items: center; }
+        .btn-primary, .btn-secondary { width: 100%; max-width: 300px; justify-content: center; }
+        .stats-grid { gap: 30px; }
+        .stat-item h3 { font-size: 36px; }
+      }
     </style>
     <script>
       // Set theme early to avoid flash
@@ -173,155 +464,483 @@
     <div class="container">
       <header>
         <div class="brand">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M12 2l2.39 4.84L20 8l-4 3.9L17 18l-5-2.7L7 18l1-6.1L4 8l5.61-1.16L12 2z" fill="currentColor" opacity=".9"/>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 2L9 9l-7 2 5 5-0.5 7L12 20l5.5 3L17 16l5-5-7-2z" fill="url(#brand-gradient)" stroke="url(#brand-gradient)" stroke-width="0.5"/>
+            <defs>
+              <linearGradient id="brand-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:var(--brand);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:var(--secondary);stop-opacity:1" />
+              </linearGradient>
+            </defs>
           </svg>
           YorkHub <span class="badge">LLM Gateway</span>
         </div>
         <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
           <span id="theme-label">自动</span>
-          <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zm10.45 10.45l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM12 4V1h-0v3h0zm0 19v-3h0v3h0zM4 12H1v0h3v0zm19 0h-3v0h3v0zM6.76 19.16l-1.42 1.42-1.79-1.8 1.41-1.41 1.8 1.79zM19.16 6.76l1.42-1.42 1.79 1.8-1.41 1.41-1.8-1.79zM12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
-          <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M21 12.79A9 9 0 1111.21 3c.05.33.08.66.08 1a7 7 0 007 7c.34 0 .67-.03 1-.08z"/></svg>
+          <svg id="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 7a5 5 0 100 10 5 5 0 000-10zM12 14a3 3 0 110-6 3 3 0 010 6z"/>
+            <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m11.72 11.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M17.36 6.64l1.42-1.42"/>
+          </svg>
+          <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none">
+            <path d="M21 12.79A9 9 0 1111.21 3c.05.33.08.66.08 1a7 7 0 007 7c.34 0 .67-.03 1-.08z"/>
+          </svg>
         </button>
       </header>
 
       <section class="hero">
-        <h1>一站式 OpenAI API 网关</h1>
-        <p>将 OpenAI 客户端的 Base URL 指向 YorkHub，即可访问任意兼容的 LLM。</p>
+        <h1>企业级 LLM API 网关</h1>
+        <p>统一管理 OpenAI、Claude、Gemini 等主流 AI 模型，提供高性能、高可用的智能路由服务</p>
+        <div class="cta-buttons">
+          <button class="btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+            快速开始
+          </button>
+          <button class="btn-secondary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+            </svg>
+            查看文档
+          </button>
+        </div>
       </section>
 
       <section class="panel">
         <div class="row">
           <div class="grow">
-            <div class="label">Base URL</div>
+            <div class="label">Gateway Base URL</div>
             <div class="pill"><code id="base-url">—</code></div>
           </div>
           <div>
-            <button class="btn" id="copy-btn">复制</button>
+            <button class="btn" id="copy-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+              复制
+            </button>
           </div>
         </div>
       </section>
 
-      <section class="panel" style="margin-top:16px">
+      <section class="panel">
         <div class="grid">
           <div class="col-6 col-12">
-            <div class="label">cURL</div>
+            <div class="code-header">
+              <div class="label">cURL 示例</div>
+              <button class="copy-code" onclick="copyCode('curl-code')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                </svg>
+                复制
+              </button>
+            </div>
             <pre class="code" id="curl-code">curl -X POST "$ORIGIN/v1/chat/completions" \
-  -H "Authorization: Bearer sk-..." \
+  -H "Authorization: Bearer sk-your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "gpt-4o-mini",
-    "messages": [{"role":"user","content":"Hello from YorkHub!"}]
-  }'
-</pre>
+    "model": "gpt-4o",
+    "messages": [
+      {"role": "system", "content": "You are a helpful assistant."},
+      {"role": "user", "content": "Hello! I'\''m using YorkHub Gateway."}
+    ],
+    "temperature": 0.7,
+    "max_tokens": 1024
+  }'</pre>
           </div>
           <div class="col-6 col-12">
-            <div class="label">JavaScript / TypeScript (fetch)</div>
-            <pre class="code" id="js-code">const baseURL = "$ORIGIN"; // YorkHub
-const resp = await fetch(`${baseURL}/v1/chat/completions`, {
-  method: "POST",
-  headers: {
-    "Authorization": "Bearer sk-...",
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    model: "gpt-4o-mini",
-    messages: [{ role: "user", content: "Hello from YorkHub!" }],
-  }),
-});
-const data = await resp.json();
-console.log(data.choices?.[0]?.message?.content);
-</pre>
+            <div class="code-header">
+              <div class="label">Python 示例</div>
+              <button class="copy-code" onclick="copyCode('python-code')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                </svg>
+                复制
+              </button>
+            </div>
+            <pre class="code" id="python-code">import openai
+
+client = openai.OpenAI(
+    api_key="sk-your-api-key",
+    base_url="$ORIGIN/v1"
+)
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "user", "content": "Hello from YorkHub!"}
+    ],
+    temperature=0.7
+)
+
+print(response.choices[0].message.content)</pre>
           </div>
         </div>
       </section>
 
-      <section class="panel" style="margin-top:16px">
-        <div class="grid">
-          <div class="col-6 col-12 feat">
-            <div class="dot"></div>
-            <div>
-              <strong>OpenAI 兼容：</strong>无需改动 SDK，只需替换 Base URL。
-            </div>
+      <section class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h3>高性能路由</h3>
+          <p>智能负载均衡，毫秒级响应，支持千万级并发请求，确保您的 AI 应用稳定运行</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3>多模型聚合</h3>
+          <p>统一接入 OpenAI、Claude、Gemini、通义千问等国内外主流模型，灵活配置路由策略</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>实时监控</h3>
+          <p>详细的请求日志、性能指标和错误追踪，帮助您优化成本和排查问题</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>企业级安全</h3>
+          <p>支持 API 密钥管理、访问控制、请求限流等安全机制，保护您的数据和服务</p>
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <h2 style="font-size: 32px; font-weight: 900; margin: 0; background: linear-gradient(135deg, var(--brand), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+          受到开发者信赖
+        </h2>
+        <p style="font-size: 18px; color: var(--muted); margin-top: 12px;">全球数万开发者的选择，专注于构建更好的 AI 应用</p>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <h3 id="requests-count">99.9%</h3>
+            <p>服务可用性</p>
           </div>
-          <div class="col-6 col-12 feat">
-            <div class="dot"></div>
-            <div>
-              <strong>多模型聚合：</strong>统一代理不同厂商 / 模型，路由灵活可配。
-            </div>
+          <div class="stat-item">
+            <h3><50ms</h3>
+            <p>平均响应时间</p>
           </div>
-          <div class="col-6 col-12 feat">
-            <div class="dot"></div>
-            <div>
-              <strong>可观测性：</strong>内置请求日志与统计，便于排查与优化。
-            </div>
+          <div class="stat-item">
+            <h3>10M+</h3>
+            <p>日处理请求</p>
           </div>
-          <div class="col-6 col-12 feat">
-            <div class="dot"></div>
-            <div>
-              <strong>生产就绪：</strong>轻量、稳定、易于部署与集成。
-            </div>
+          <div class="stat-item">
+            <h3>24/7</h3>
+            <p>技术支持</p>
           </div>
         </div>
       </section>
 
       <footer>
-        <div>© <span id="year"></span> YorkHub · LLM Gateway</div>
+        <div>© <span id="year"></span> YorkHub · 专业可靠的 LLM API 网关服务</div>
+        <div style="margin-top: 8px;">
+          <a href="#" style="margin: 0 12px; color: var(--muted);">使用条款</a>
+          <a href="#" style="margin: 0 12px; color: var(--muted);">隐私政策</a>
+          <a href="#" style="margin: 0 12px; color: var(--muted);">API 文档</a>
+          <a href="#" style="margin: 0 12px; color: var(--muted);">GitHub</a>
+        </div>
       </footer>
     </div>
 
     <script>
-      // Populate base URL and code samples
-      const origin = window.location.origin;
-      const baseEl = document.getElementById('base-url');
-      baseEl.textContent = origin;
-      const replaceOrigin = s => s.replaceAll('$ORIGIN', origin);
-      document.getElementById('curl-code').textContent = replaceOrigin(document.getElementById('curl-code').textContent);
-      document.getElementById('js-code').textContent = replaceOrigin(document.getElementById('js-code').textContent);
-      document.getElementById('year').textContent = new Date().getFullYear();
+      // Initialize page
+      document.addEventListener('DOMContentLoaded', () => {
+        // Populate base URL and code samples
+        const origin = window.location.origin;
+        const baseEl = document.getElementById('base-url');
+        if (baseEl) {
+          baseEl.textContent = origin;
+        }
+        const replaceOrigin = s => s.replaceAll('$ORIGIN', origin);
+        
+        // Update code samples
+        const curlCode = document.getElementById('curl-code');
+        const pythonCode = document.getElementById('python-code');
+        if (curlCode) curlCode.textContent = replaceOrigin(curlCode.textContent);
+        if (pythonCode) pythonCode.textContent = replaceOrigin(pythonCode.textContent);
+        
+        // Set current year
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-      // Copy button
-      document.getElementById('copy-btn').addEventListener('click', async () => {
+        // Add hover animations to cards and buttons
+        addMicroInteractions();
+        
+        // Initialize theme
+        initTheme();
+        
+        // Add button click handlers
+        initButtonHandlers();
+      });
+
+      // Copy base URL button
+      document.getElementById('copy-btn')?.addEventListener('click', async () => {
+        const origin = window.location.origin;
         try {
           await navigator.clipboard.writeText(origin);
-          const btn = document.getElementById('copy-btn');
-          const old = btn.textContent; btn.textContent = '已复制';
-          setTimeout(() => (btn.textContent = old), 1200);
+          showCopyFeedback(document.getElementById('copy-btn'), '已复制');
         } catch (e) {
-          alert('复制失败，请手动选择并复制。');
+          showNotification('复制失败，请手动选择并复制', 'error');
         }
       });
 
-      // Theme toggle with persistence
-      const toggle = document.getElementById('theme-toggle');
-      const label = document.getElementById('theme-label');
-      const iconSun = document.getElementById('icon-sun');
-      const iconMoon = document.getElementById('icon-moon');
+      // Copy code function
+      window.copyCode = async (elementId) => {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        try {
+          await navigator.clipboard.writeText(element.textContent);
+          const button = element.previousElementSibling?.querySelector('.copy-code');
+          if (button) {
+            showCopyFeedback(button, '已复制');
+          }
+        } catch (e) {
+          showNotification('复制失败，请手动复制代码', 'error');
+        }
+      };
 
-      function syncLabel() {
-        const attr = document.documentElement.getAttribute('data-theme');
-        if (!attr) { label.textContent = '自动'; iconSun.style.display=''; iconMoon.style.display='none'; return; }
-        if (attr === 'light') { label.textContent = '浅色'; iconSun.style.display=''; iconMoon.style.display='none'; }
-        else { label.textContent = '深色'; iconSun.style.display='none'; iconMoon.style.display=''; }
+      // Show copy feedback
+      function showCopyFeedback(button, text) {
+        const original = button.innerHTML;
+        button.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg> ${text}`;
+        button.style.color = 'var(--success)';
+        
+        setTimeout(() => {
+          button.innerHTML = original;
+          button.style.color = 'var(--muted)';
+        }, 2000);
       }
-      syncLabel();
 
-      toggle.addEventListener('click', () => {
-        const cur = document.documentElement.getAttribute('data-theme');
-        let next;
-        if (cur === 'light') next = 'dark';
-        else if (cur === 'dark') next = null; // back to auto
-        else next = 'light';
+      // Show notification
+      function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 16px 20px;
+          box-shadow: var(--shadow-lg);
+          z-index: 1000;
+          animation: slideInRight 0.3s ease-out;
+          max-width: 300px;
+        `;
+        notification.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${type === 'error' ? '#ef4444' : '#10b981'}" stroke-width="2">
+              ${type === 'error' 
+                ? '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'
+                : '<path d="M20 6L9 17l-5-5"/>'}
+            </svg>
+            <span>${message}</span>
+          </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.style.animation = 'fadeOut 0.3s ease-out';
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+      }
 
-        if (next) {
-          document.documentElement.setAttribute('data-theme', next);
-          try { localStorage.setItem('theme', next); } catch (_) {}
-        } else {
-          document.documentElement.removeAttribute('data-theme');
-          try { localStorage.removeItem('theme'); } catch (_) {}
+      // Add micro-interactions
+      function addMicroInteractions() {
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn-primary, .btn-secondary, .btn').forEach(button => {
+          button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+              position: absolute;
+              width: ${size}px;
+              height: ${size}px;
+              border-radius: 50%;
+              background: rgba(255, 255, 255, 0.3);
+              left: ${x}px;
+              top: ${y}px;
+              pointer-events: none;
+              transform: scale(0);
+              animation: ripple 0.6s ease-out;
+            `;
+            
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+          });
+        });
+
+        // Add parallax effect to hero background
+        document.addEventListener('mousemove', (e) => {
+          const hero = document.querySelector('.hero');
+          if (!hero) return;
+          
+          const x = e.clientX / window.innerWidth;
+          const y = e.clientY / window.innerHeight;
+          
+          hero.style.setProperty('--mouse-x', x);
+          hero.style.setProperty('--mouse-y', y);
+        });
+      }
+
+      // Initialize theme
+      function initTheme() {
+        const toggle = document.getElementById('theme-toggle');
+        const label = document.getElementById('theme-label');
+        const iconSun = document.getElementById('icon-sun');
+        const iconMoon = document.getElementById('icon-moon');
+
+        function syncLabel() {
+          const attr = document.documentElement.getAttribute('data-theme');
+          if (!attr) { 
+            label.textContent = '自动'; 
+            iconSun.style.display = ''; 
+            iconMoon.style.display = 'none'; 
+            return; 
+          }
+          if (attr === 'light') { 
+            label.textContent = '浅色'; 
+            iconSun.style.display = ''; 
+            iconMoon.style.display = 'none'; 
+          } else { 
+            label.textContent = '深色'; 
+            iconSun.style.display = 'none'; 
+            iconMoon.style.display = ''; 
+          }
         }
+        
         syncLabel();
-      });
+
+        toggle?.addEventListener('click', () => {
+          const cur = document.documentElement.getAttribute('data-theme');
+          let next;
+          if (cur === 'light') next = 'dark';
+          else if (cur === 'dark') next = null;
+          else next = 'light';
+
+          if (next) {
+            document.documentElement.setAttribute('data-theme', next);
+            try { localStorage.setItem('theme', next); } catch (_) {}
+          } else {
+            document.documentElement.removeAttribute('data-theme');
+            try { localStorage.removeItem('theme'); } catch (_) {}
+          }
+          syncLabel();
+        });
+      }
+
+      // Initialize button handlers
+      function initButtonHandlers() {
+        // Quick start button
+        document.querySelector('.btn-primary')?.addEventListener('click', () => {
+          showNotification('正在跳转到快速开始指南...', 'info');
+          // window.location.href = '/docs/quickstart';
+        });
+
+        // Documentation button
+        document.querySelector('.btn-secondary')?.addEventListener('click', () => {
+          showNotification('正在打开文档...', 'info');
+          // window.location.href = '/docs';
+        });
+
+        // Footer links
+        document.querySelectorAll('footer a').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            showNotification(`正在打开 ${link.textContent}...`, 'info');
+          });
+        });
+      }
+
+      // Add CSS animations
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideInRight {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes fadeOut {
+          from {
+            opacity: 1;
+          }
+          to {
+            opacity: 0;
+          }
+        }
+        
+        @keyframes ripple {
+          to {
+            transform: scale(4);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Animate stats on scroll
+      const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px'
+      };
+      
+      const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateStats();
+            statsObserver.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      
+      const statsSection = document.querySelector('.stats-section');
+      if (statsSection) {
+        statsObserver.observe(statsSection);
+      }
+      
+      function animateStats() {
+        const requestCount = document.getElementById('requests-count');
+        if (requestCount) {
+          animateValue(requestCount, 0, 99.9, 2000, '%');
+        }
+      }
+      
+      function animateValue(element, start, end, duration, suffix = '') {
+        const startTime = performance.now();
+        
+        function update(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const value = start + (end - start) * easeOutQuad(progress);
+          
+          element.textContent = value.toFixed(1) + suffix;
+          
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          }
+        }
+        
+        requestAnimationFrame(update);
+      }
+      
+      function easeOutQuad(t) {
+        return t * (2 - t);
+      }
     </script>
   </body>
   </html>
