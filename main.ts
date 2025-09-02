@@ -1,5 +1,3 @@
-import { serve } from "jsr:@std/http/server";
-
 Deno.serve(async (_req: Request) => {
   // 1. Read the environment variable.
   const gatewayBaseUrl = Deno.env.get("GATEWAY_BASE_URL");
