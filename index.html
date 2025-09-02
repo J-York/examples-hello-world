@@ -23,6 +23,11 @@
         --accent-light: #22d3ee;
         --secondary: #8b5cf6;
         --secondary-light: #a78bfa;
+        /* Feature icon accents (balanced warm–cool set) */
+        --feat-1: #6366f1; /* indigo */
+        --feat-2: #22d3ee; /* cyan */
+        --feat-3: #f59e0b; /* amber */
+        --feat-4: #ec4899; /* pink */
         --success: #10b981;
         --warning: #f59e0b;
         --error: #ef4444;
@@ -46,6 +51,11 @@
           --accent-light: #67e8f9;
           --secondary: #c4b5fd;
           --secondary-light: #ddd6fe;
+          /* Feature icon accents (balanced warm–cool set) */
+          --feat-1: #8b90ff; /* indigo light */
+          --feat-2: #67e8f9; /* cyan light */
+          --feat-3: #fbbf24; /* amber light */
+          --feat-4: #f472b6; /* pink light */
           --success: #34d399;
           --warning: #fbbf24;
           --error: #f87171;
@@ -70,6 +80,10 @@
         --accent-light: #22d3ee;
         --secondary: #8b5cf6;
         --secondary-light: #a78bfa;
+        --feat-1: #6366f1;
+        --feat-2: #22d3ee;
+        --feat-3: #f59e0b;
+        --feat-4: #ec4899;
         --success: #10b981;
         --warning: #f59e0b;
         --error: #ef4444;
@@ -92,6 +106,10 @@
         --accent-light: #67e8f9;
         --secondary: #c4b5fd;
         --secondary-light: #ddd6fe;
+        --feat-1: #8b90ff;
+        --feat-2: #67e8f9;
+        --feat-3: #fbbf24;
+        --feat-4: #f472b6;
         --success: #34d399;
         --warning: #fbbf24;
         --error: #f87171;
@@ -214,7 +232,7 @@
         margin: 0 0 24px 0;
         letter-spacing: -0.03em;
         font-weight: 900;
-        background: linear-gradient(135deg, var(--brand), var(--accent), var(--secondary));
+        background: linear-gradient(135deg, var(--feat-1), var(--feat-2), var(--feat-3), var(--feat-4));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -525,18 +543,18 @@
         margin-bottom: 16px;
         font-size: 24px;
       }
-      /* Vary feature icon accents to reduce monotony */
+      /* Feature icon accents: balanced warm–cool cycle */
       .feature-card:nth-child(1) .feature-icon {
-        background: linear-gradient(135deg, var(--success), var(--brand));
+        background: linear-gradient(135deg, var(--feat-1), var(--feat-2));
       }
       .feature-card:nth-child(2) .feature-icon {
-        background: linear-gradient(135deg, var(--accent), var(--secondary));
+        background: linear-gradient(135deg, var(--feat-2), var(--feat-3));
       }
       .feature-card:nth-child(3) .feature-icon {
-        background: linear-gradient(135deg, var(--info), var(--accent));
+        background: linear-gradient(135deg, var(--feat-3), var(--feat-4));
       }
       .feature-card:nth-child(4) .feature-icon {
-        background: linear-gradient(135deg, var(--warning), var(--accent));
+        background: linear-gradient(135deg, var(--feat-4), var(--feat-1));
       }
       .feature-card h3 {
         margin: 0 0 12px 0;
@@ -567,11 +585,16 @@
         font-size: 48px;
         font-weight: 900;
         margin: 0 0 8px 0;
-        background: linear-gradient(135deg, var(--brand), var(--accent), var(--secondary));
+        background: linear-gradient(135deg, var(--feat-1), var(--feat-2), var(--feat-3), var(--feat-4));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
+      /* Staggered gradients per stat item for rhythm */
+      .stats-grid .stat-item:nth-child(1) h3 { background: linear-gradient(135deg, var(--feat-1), var(--feat-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      .stats-grid .stat-item:nth-child(2) h3 { background: linear-gradient(135deg, var(--feat-2), var(--feat-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      .stats-grid .stat-item:nth-child(3) h3 { background: linear-gradient(135deg, var(--feat-3), var(--feat-4)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      .stats-grid .stat-item:nth-child(4) h3 { background: linear-gradient(135deg, var(--feat-4), var(--feat-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
       .stat-item p {
         margin: 0;
         color: var(--muted);
@@ -702,7 +725,7 @@
       </section>
 
       <section class="stats-section">
-        <h2 style="font-size: 32px; font-weight: 900; margin: 0; background: linear-gradient(135deg, var(--brand), var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+        <h2 style="font-size: 32px; font-weight: 900; margin: 0; background: linear-gradient(135deg, var(--feat-2), var(--feat-3), var(--feat-4), var(--feat-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
           受到开发者信赖
         </h2>
         <p style="font-size: 18px; color: var(--muted); margin-top: 12px;">全球数万开发者的选择，专注于构建更好的 AI 应用</p>
