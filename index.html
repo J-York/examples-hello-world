@@ -11,61 +11,85 @@
       /* --- Theme tokens --- */
       :root {
         --bg: #ffffff;
-        --text: #0f172a;
+        --text: #1e293b;
         --muted: #64748b;
         --card: #f8fafc;
         --border: #e2e8f0;
-        --brand: #3b82f6;
-        --brand-ink: #1d4ed8;
+        --brand: #4f46e5;
+        --brand-light: #6366f1;
+        --accent: #06b6d4;
+        --accent-light: #22d3ee;
         --secondary: #8b5cf6;
+        --secondary-light: #a78bfa;
         --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
         --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        --shadow-brand: 0 20px 25px -5px rgba(79, 70, 229, 0.15), 0 10px 10px -5px rgba(79, 70, 229, 0.08);
         color-scheme: light;
       }
       @media (prefers-color-scheme: dark) {
         :root {
-          --bg: #0a0f1e;
-          --text: #f1f5f9;
+          --bg: #020817;
+          --text: #f8fafc;
           --muted: #94a3b8;
           --card: #0f172a;
           --border: #1e293b;
-          --brand: #60a5fa;
-          --brand-ink: #93c5fd;
-          --secondary: #a78bfa;
+          --brand: #818cf8;
+          --brand-light: #a5b4fc;
+          --accent: #22d3ee;
+          --accent-light: #67e8f9;
+          --secondary: #c4b5fd;
+          --secondary-light: #ddd6fe;
           --success: #34d399;
+          --warning: #fbbf24;
+          --error: #f87171;
           --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
           --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+          --shadow-brand: 0 20px 25px -5px rgba(129, 140, 248, 0.2), 0 10px 10px -5px rgba(129, 140, 248, 0.1);
           color-scheme: dark;
         }
       }
       /* Manual override via [data-theme] */
       html[data-theme='light'] {
         --bg: #ffffff;
-        --text: #0f172a;
+        --text: #1e293b;
         --muted: #64748b;
         --card: #f8fafc;
         --border: #e2e8f0;
-        --brand: #3b82f6;
-        --brand-ink: #1d4ed8;
+        --brand: #4f46e5;
+        --brand-light: #6366f1;
+        --accent: #06b6d4;
+        --accent-light: #22d3ee;
         --secondary: #8b5cf6;
+        --secondary-light: #a78bfa;
         --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
         --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        --shadow-brand: 0 20px 25px -5px rgba(79, 70, 229, 0.15), 0 10px 10px -5px rgba(79, 70, 229, 0.08);
         color-scheme: light;
       }
       html[data-theme='dark'] {
-        --bg: #0a0f1e;
-        --text: #f1f5f9;
+        --bg: #020817;
+        --text: #f8fafc;
         --muted: #94a3b8;
         --card: #0f172a;
         --border: #1e293b;
-        --brand: #60a5fa;
-        --brand-ink: #93c5fd;
-        --secondary: #a78bfa;
+        --brand: #818cf8;
+        --brand-light: #a5b4fc;
+        --accent: #22d3ee;
+        --accent-light: #67e8f9;
+        --secondary: #c4b5fd;
+        --secondary-light: #ddd6fe;
         --success: #34d399;
+        --warning: #fbbf24;
+        --error: #f87171;
         --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
         --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        --shadow-brand: 0 20px 25px -5px rgba(129, 140, 248, 0.2), 0 10px 10px -5px rgba(129, 140, 248, 0.1);
         color-scheme: dark;
       }
 
@@ -81,7 +105,7 @@
         overflow-x: hidden;
       }
       a { color: var(--brand); text-decoration: none; transition: all 0.2s ease; }
-      a:hover { color: var(--brand-ink); text-decoration: none; transform: translateY(-1px); }
+      a:hover { color: var(--brand-light); text-decoration: none; transform: translateY(-1px); }
       code, pre { font-family: 'Fira Code', 'Monaco', 'Cascadia Code', 'SF Mono', 'Consolas', monospace; }
 
       /* Animations */
@@ -129,14 +153,14 @@
         transform: scale(1.05);
       }
       .badge {
-        background: linear-gradient(135deg, var(--brand), var(--secondary));
+        background: linear-gradient(135deg, var(--brand), var(--accent));
         color: white;
         padding: 4px 12px;
         border-radius: 20px;
         font-size: 11px; font-weight: 600;
         letter-spacing: 0.5px;
         text-transform: uppercase;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.15);
       }
       .theme-toggle {
         background: var(--card);
@@ -182,7 +206,7 @@
         margin: 0 0 24px 0;
         letter-spacing: -0.03em;
         font-weight: 900;
-        background: linear-gradient(135deg, var(--brand), var(--secondary));
+        background: linear-gradient(135deg, var(--brand), var(--accent), var(--secondary));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -203,7 +227,7 @@
         flex-wrap: wrap;
       }
       .btn-primary {
-        background: linear-gradient(135deg, var(--brand), var(--secondary));
+        background: linear-gradient(135deg, var(--brand), var(--accent));
         color: white;
         border: none;
         padding: 14px 32px;
@@ -212,12 +236,12 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+        box-shadow: var(--shadow-brand);
         display: inline-flex; align-items: center; gap: 8px;
       }
       .btn-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
+        box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.4);
       }
       .btn-secondary {
         background: var(--card);
@@ -255,7 +279,7 @@
       .label { font-size: 14px; color: var(--muted); margin-bottom: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
       .pill {
         display: inline-flex; align-items: center; gap: 10px;
-        background: linear-gradient(90deg, var(--card), color-mix(in oklab, var(--brand) 5%, var(--card)));
+        background: linear-gradient(90deg, var(--card), color-mix(in oklab, var(--accent) 8%, var(--card)));
         border: 2px solid var(--border);
         border-radius: 16px;
         padding: 14px 18px;
@@ -269,7 +293,7 @@
       }
       .btn {
         display: inline-flex; align-items: center; gap: 8px;
-        background: linear-gradient(135deg, var(--card), var(--bg));
+        background: linear-gradient(135deg, var(--card), color-mix(in oklab, var(--accent) 5%, var(--card)));
         color: var(--text);
         border: 1px solid var(--border);
         border-radius: 12px;
@@ -305,7 +329,7 @@
         margin: 0; 
         padding: 20px 24px; 
         border-radius: 16px;
-        background: linear-gradient(180deg, var(--bg), color-mix(in oklab, var(--brand) 3%, var(--bg)));
+        background: linear-gradient(180deg, var(--bg), color-mix(in oklab, var(--accent) 5%, var(--bg)));
         border: 1px solid var(--border);
         overflow: auto; 
         font-size: 14px; 
@@ -341,7 +365,7 @@
       .base-url-section {
         margin-top: 60px;
         padding: 40px;
-        background: linear-gradient(135deg, var(--card) 0%, color-mix(in oklab, var(--brand) 3%, var(--card)) 100%);
+        background: linear-gradient(135deg, var(--card) 0%, color-mix(in oklab, var(--accent) 8%, var(--card)) 100%);
         border-radius: 24px;
         border: 1px solid var(--border);
         box-shadow: var(--shadow);
@@ -356,7 +380,7 @@
         right: -50%;
         width: 200%;
         height: 200%;
-        background: radial-gradient(circle, color-mix(in oklab, var(--brand) 8%, transparent) 0%, transparent 70%);
+        background: radial-gradient(circle, color-mix(in oklab, var(--accent) 12%, transparent) 0%, transparent 70%);
         animation: float 20s ease-in-out infinite;
         z-index: 0;
       }
@@ -393,16 +417,16 @@
         transition: all 0.3s ease;
       }
       .base-url-input:hover {
-        border-color: var(--brand);
-        box-shadow: inset 0 2px 4px rgba(0,0,0,0.06), 0 0 0 3px color-mix(in oklab, var(--brand) 10%, transparent);
+        border-color: var(--accent);
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.06), 0 0 0 3px color-mix(in oklab, var(--accent) 10%, transparent);
       }
       .base-url-input code {
         font-family: 'Fira Code', monospace;
         font-size: 18px;
-        color: var(--brand);
+        color: var(--accent);
       }
       .copy-btn-large {
-        background: linear-gradient(135deg, var(--brand), var(--secondary));
+        background: linear-gradient(135deg, var(--accent), var(--brand));
         color: white;
         border: none;
         border-radius: 12px;
@@ -411,14 +435,14 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+        box-shadow: var(--shadow-brand);
         display: inline-flex;
         align-items: center;
         gap: 8px;
       }
       .copy-btn-large:hover {
         transform: translateY(-2px);
-        box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
+        box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.4);
       }
       .base-url-hint {
         font-size: 14px;
@@ -468,7 +492,7 @@
         left: 0;
         width: 100%;
         height: 4px;
-        background: linear-gradient(90deg, var(--brand), var(--secondary));
+        background: linear-gradient(90deg, var(--brand), var(--accent), var(--secondary));
         transform: scaleX(0);
         transition: transform 0.3s ease;
       }
@@ -482,7 +506,7 @@
       .feature-icon {
         width: 48px;
         height: 48px;
-        background: linear-gradient(135deg, var(--brand), var(--secondary));
+        background: linear-gradient(135deg, var(--brand), var(--accent));
         border-radius: 12px;
         display: flex;
         align-items: center;
@@ -519,7 +543,7 @@
         font-size: 48px;
         font-weight: 900;
         margin: 0 0 8px 0;
-        background: linear-gradient(135deg, var(--brand), var(--secondary));
+        background: linear-gradient(135deg, var(--brand), var(--accent), var(--secondary));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -571,6 +595,7 @@
             <defs>
               <linearGradient id="brand-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" style="stop-color:var(--brand);stop-opacity:1" />
+                <stop offset="50%" style="stop-color:var(--accent);stop-opacity:1" />
                 <stop offset="100%" style="stop-color:var(--secondary);stop-opacity:1" />
               </linearGradient>
             </defs>
@@ -653,7 +678,7 @@
       </section>
 
       <section class="stats-section">
-        <h2 style="font-size: 32px; font-weight: 900; margin: 0; background: linear-gradient(135deg, var(--brand), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+        <h2 style="font-size: 32px; font-weight: 900; margin: 0; background: linear-gradient(135deg, var(--brand), var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
           受到开发者信赖
         </h2>
         <p style="font-size: 18px; color: var(--muted); margin-top: 12px;">全球数万开发者的选择，专注于构建更好的 AI 应用</p>
